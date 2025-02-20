@@ -2,7 +2,7 @@ name: Daily Dashboard Checkout
 
 on:
   schedule:
-    - cron: '*/5 * * * *'  # Every 5 minutes
+    - cron: '0 14 * * 1-5'  # 7:30 PM IST, Monday to Friday (2:00 PM UTC)
 
 jobs:
   checkout:
