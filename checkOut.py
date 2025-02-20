@@ -15,6 +15,9 @@ URL = "https://www.geninvinci.invincix.com/login"
 USERNAME = "suraj.mallick@invincix.com"
 PASSWORD = "MAXOUT@11uwu"
 
+# Determine action based on the argument: check-in or check-out
+ACTION = sys.argv[1] if len(sys.argv) > 1 else "checkin"
+
 def kill_existing_chrome():
     """Kill existing Chrome processes to avoid conflicts."""
     for proc in psutil.process_iter(['pid', 'name']):
@@ -74,17 +77,27 @@ def perform_login():
         except:
             print("Login unsuccessful: Navbar not found.")
 
-        # If login successful, check for check-in button
+        # If login successful, perform action based on check-in or check-out
         if not login_failed:
             try:
-                print("Checking for check-in button...")
-                checkin_button = driver.find_elements(By.CSS_SELECTOR, "a.btn.btn-primary#checkinId")
-                if checkin_button:
-                    print("Check-in available.")
+                if ACTION == "checkin":
+                    print("Checking for check-in button...")
+                    checkin_button = driver.find_elements(By.CSS_SELECTOR, "a.btn.btn-primary#checkinId")
+                    if checkin_button:
+                        checkin_button[0].click()
+                        print("Check-in successful.")
+                    else:
+                        print("Check-in not available or already checked in.")
                 else:
-                    print("Check-in not available or already checked in.")
+                    print("Checking for check-out button...")
+                    checkout_button = driver.find_elements(By.CSS_SELECTOR, "a.btn.btn-primary#checkoutId")
+                    if checkout_button:
+                        checkout_button[0].click()
+                        print("Check-out successful.")
+                    else:
+                        print("Check-out not available or already checked out.")
             except Exception as e:
-                print(f"Failed to check check-in status: {e}")
+                print(f"Failed to perform {ACTION}: {e}")
 
         # Final check based on login status
         if login_failed:
@@ -93,7 +106,7 @@ def perform_login():
                 f.write(driver.page_source)
             print("Saved page source for troubleshooting.")
         else:
-            print("Login successful.")
+            print(f"{ACTION.capitalize()} process completed successfully.")
 
         print(f"Final URL after login attempt: {driver.current_url}")
 
@@ -112,6 +125,7 @@ def perform_login():
             print(f"Failed to clean up user data directory: {cleanup_error}")
 
 if __name__ == "__main__":
-    print("Starting login process...")
+    print(f"Starting {ACTION} process...")
     perform_login()
-    print("Login process finished.")
+    print(f"{ACTION.capitalize()} process finished.")
+    
