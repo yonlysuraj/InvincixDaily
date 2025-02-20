@@ -15,7 +15,7 @@ jobs:
     - name: Set Up Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.12'
+        python-version: '3.9'  # Match system Python version
 
     - name: Install Dependencies
       run: |
@@ -25,4 +25,4 @@ jobs:
       env:
         DASHBOARD_USERNAME: ${{ secrets.DASHBOARD_USERNAME }}
         DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
-      run: python checkOut.py
+      run: python3 checkOut.py  # Ensure python3 is used
