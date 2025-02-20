@@ -1,0 +1,28 @@
+name: Daily Dashboard Checkout
+
+on:
+  schedule:
+    - cron: '0 14 * * *'  # 7:30 PM IST (2:00 PM UTC)
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set Up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Dependencies
+      run: |
+        pip install -r requirements.txt
+
+    - name: Run Checkout Script
+      env:
+        DASHBOARD_USERNAME: ${{ secrets.DASHBOARD_USERNAME }}
+        DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+      run: python checkOut.py
