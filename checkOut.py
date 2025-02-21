@@ -128,7 +128,4 @@ if __name__ == "__main__":
     print(f"Starting {ACTION} process...")
     perform_login()
     print(f"{ACTION.capitalize()} process finished.")
-<<<<<<< HEAD
-    
-=======
->>>>>>> da7effe (updated chekin option)
+
