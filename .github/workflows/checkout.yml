@@ -8,7 +8,6 @@ on:
 
 jobs:
   checkin:
-    if: contains(github.event.schedule, '30 5')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -29,7 +28,6 @@ jobs:
         run: python3 checkout.py checkin
 
   checkout:
-    if: contains(github.event.schedule, '30 14')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
