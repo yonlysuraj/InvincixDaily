@@ -1,0 +1,8 @@
+venv/
+*.log
+*.png
+last_checkin.txt
+last_checkout.txt
+__pycache__/
+*.pyc
+.DS_Store
