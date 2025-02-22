@@ -1,0 +1,50 @@
+name: Daily Checkin and Checkout
+
+on:
+  schedule:
+    - cron: "30 5 * * 1-5"  # Check-in at 10:30 AM IST (5:30 AM UTC), Monday to Friday
+    - cron: "30 14 * * 1-5" # Check-out at 7:30 PM IST (2:30 PM UTC), Monday to Friday
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  checkin:
+    if: contains(github.event.schedule, '30 5')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Perform Check-in
+        env:
+          DASHBOARD_USERNAME: ${{ secrets.DASHBOARD_USERNAME }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+        run: python3 checkout.py checkin
+
+  checkout:
+    if: contains(github.event.schedule, '30 14')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set Up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Perform Check-out
+        env:
+          DASHBOARD_USERNAME: ${{ secrets.DASHBOARD_USERNAME }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+        run: python3 checkout.py checkout
