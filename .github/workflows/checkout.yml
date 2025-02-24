@@ -2,7 +2,7 @@ name: Daily Attendance Automation
 
 on:
   schedule:
-    - cron: "20 4 * * 1-5"  # ✅ Changed from "30 2 * * *" to "30 4 * * *" (Runs at 10:00 AM IST / 4:30 AM UTC for Check-In)
+    - cron: "50 4 * * 1-5"  # ✅ Changed from "30 2 * * *" to "30 4 * * *" (Runs at 10:00 AM IST / 4:30 AM UTC for Check-In)
     - cron: "30 13 * * 1-5" # ✅ Unchanged (Runs at 7:30 PM IST / 2:00 PM UTC for Check-Out)
   workflow_dispatch: # Allows manual triggering of workflow
 
