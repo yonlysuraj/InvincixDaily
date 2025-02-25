@@ -2,12 +2,13 @@ name: Daily Attendance Automation
 
 on:
   schedule:
-    - cron: "50 4 * * 1-5"  # ✅ Changed from "30 2 * * *" to "30 4 * * *" (Runs at 10:00 AM IST / 4:30 AM UTC for Check-In)
-    - cron: "30 13 * * 1-5" # ✅ Unchanged (Runs at 7:30 PM IST / 2:00 PM UTC for Check-Out)
-  workflow_dispatch: # Allows manual triggering of workflow
+    - cron: "30 4 * * 1-5"  # Check-in at 10:00 AM IST (4:30 AM UTC)
+    - cron: "30 13 * * 1-5" # Check-out at 7:30 PM IST (2:00 PM UTC)
+  workflow_dispatch:
 
 jobs:
   checkin:
+    if: github.event.schedule == '30 4 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,6 +29,7 @@ jobs:
         run: python checkin.py
 
   checkout:
+    if: github.event.schedule == '30 13 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -46,4 +48,3 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}
           PASSWORD: ${{ secrets.PASSWORD }}
         run: python checkout.py
-
